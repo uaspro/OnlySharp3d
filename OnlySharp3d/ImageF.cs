@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OnlySharp3d
 {
-    public class ImageF
+    internal class ImageF
     {
         public Vector3[][] Buffer { get; }
 

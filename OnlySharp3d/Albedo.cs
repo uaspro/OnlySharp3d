@@ -1,6 +1,6 @@
 ﻿namespace OnlySharp3d
 {
-    public class Albedo
+    internal struct Albedo
     {
         public float DiffuseKoef { get; }
 

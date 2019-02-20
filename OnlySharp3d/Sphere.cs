@@ -19,23 +19,23 @@ namespace OnlySharp3d
             Material = material;
         }
 
-        public bool RayIntersect(Vector3 origin, Vector3 projectionDirection, out float distance)
+        public RayIntersectionResult RayIntersect(Vector3 origin, Vector3 projectionDirection)
         {
             var originToSphereCenterVector = Center - origin;
             var distanceFromOriginToIntersectionPoint = Vector3.Dot(originToSphereCenterVector, projectionDirection);
-            var distanceFromSprereCenterToIntersectionPointSquared = 
+            var distanceFromSprereCenterToIntersectionPointSquared =
                 Vector3.Dot(originToSphereCenterVector, originToSphereCenterVector) -
                 distanceFromOriginToIntersectionPoint * distanceFromOriginToIntersectionPoint;
 
-            distance = float.NaN;
             if (distanceFromSprereCenterToIntersectionPointSquared > Radius * Radius)
             {
-                return false;
+                return default(RayIntersectionResult);
             }
 
             var distanceFromIntersectionPointToSphereSurface =
                 MathF.Sqrt(Radius * Radius - distanceFromSprereCenterToIntersectionPointSquared);
-            distance = distanceFromOriginToIntersectionPoint - distanceFromIntersectionPointToSphereSurface;
+
+            var distance = distanceFromOriginToIntersectionPoint - distanceFromIntersectionPointToSphereSurface;
 
             var distance2 = distanceFromOriginToIntersectionPoint + distanceFromIntersectionPointToSphereSurface;
             if (distance < 0)
@@ -43,7 +43,14 @@ namespace OnlySharp3d
                 distance = distance2;
             }
 
-            return distance >= 0;
+            if (distance < 0)
+            {
+                return default(RayIntersectionResult);
+            }
+
+            var hitPoint = origin + projectionDirection * distance;
+            var normalVector = Vector3.Normalize(hitPoint - Center);
+            return new RayIntersectionResult(true, distance, hitPoint, normalVector, Material);
         }
     }
 }
