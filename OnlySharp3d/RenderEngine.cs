@@ -77,8 +77,7 @@ namespace OnlySharp3d
                 out var diffuseLightIntensity,
                 out var specularLightIntensity);
 
-            return rayIntersectionResult.Material.DiffuseColor * diffuseLightIntensity *
-                rayIntersectionResult.Material.Albedo.DiffuseKoef +
+            return rayIntersectionResult.Material.DiffuseColor * diffuseLightIntensity * rayIntersectionResult.Material.Albedo.DiffuseKoef +
                 Vector3.One * specularLightIntensity * rayIntersectionResult.Material.Albedo.SpecularKoef +
                 reflectionColor * rayIntersectionResult.Material.Albedo.ReflectKoef +
                 refractionColor * rayIntersectionResult.Material.Albedo.RefractKoef;

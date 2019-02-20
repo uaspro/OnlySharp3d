@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 
 namespace OnlySharp3d
@@ -12,7 +11,7 @@ namespace OnlySharp3d
         private const string EnvMapPath = @"envmap.jpg";
         private const string ResultFramePath = @"ResultFrame.bmp";
 
-        private static void Main(string[] args)
+        private static void Main()
         {
             var materialIvory = new Material(1f, new Albedo(0.6f, 0.3f, 0.1f, 0f), new Vector3(0.4f, 0.4f, 0.3f), 50f);
             var materialRed = new Material(1f, new Albedo(0.9f, 0.1f, 0.0f, 0f), new Vector3(0.3f, 0.1f, 0.1f), 10f);
