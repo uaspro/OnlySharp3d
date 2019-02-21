@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlySharp3d", "OnlySharp3d\OnlySharp3d.csproj", "{57F64E98-43E5-4BCB-B601-1172838DFF5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharp3DRaytracing", "Sharp3DRaytracing\Sharp3DRaytracing.csproj", "{57F64E98-43E5-4BCB-B601-1172838DFF5F}"
 EndProject
 Global
 	GlobalSection(Performance) = preSolution

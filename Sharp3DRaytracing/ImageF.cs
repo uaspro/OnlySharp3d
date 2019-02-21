@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace OnlySharp3d
+namespace Sharp3DRaytracing
 {
     internal class ImageF
     {

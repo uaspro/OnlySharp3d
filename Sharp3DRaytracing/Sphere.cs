@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace OnlySharp3d
+namespace Sharp3DRaytracing
 {
     internal struct Sphere : IObject3D
     {

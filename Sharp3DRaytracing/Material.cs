@@ -1,4 +1,4 @@
-﻿namespace OnlySharp3d
+﻿namespace Sharp3DRaytracing
 {
     internal struct Material
     {
