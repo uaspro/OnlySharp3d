@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace OnlySharp3d
+﻿namespace OnlySharp3d
 {
     internal struct Material
     {
@@ -8,11 +6,11 @@ namespace OnlySharp3d
 
         public Albedo Albedo { get; }
 
-        public Vector3 DiffuseColor { get; }
+        public ColorF DiffuseColor { get; }
 
         public float SpecularExponent { get; }
 
-        internal Material(float refractiveIndex, Albedo albedo, Vector3 diffuseColor, float specularExponent)
+        internal Material(float refractiveIndex, Albedo albedo, ColorF diffuseColor, float specularExponent)
         {
             RefractiveIndex = refractiveIndex;
             DiffuseColor = diffuseColor;

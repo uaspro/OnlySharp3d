@@ -7,7 +7,7 @@ namespace OnlySharp3d
 {
     internal class RenderEngine
     {
-        private static readonly Vector3 DefaultColor = Vector3.One;
+        private static readonly ColorF DefaultColor = ColorF.White;
 
         public int FrameWidth { get; }
 
@@ -53,7 +53,7 @@ namespace OnlySharp3d
             return frame;
         }
 
-        private Vector3 CastRay(
+        private ColorF CastRay(
             ref Vector3 origin, ref Vector3 projectionDirection, List<IObject3D> scene,
             List<LightSource> lightSources, ImageF environmentMap = null, int depth = 0)
         {
@@ -78,7 +78,7 @@ namespace OnlySharp3d
                 out var specularLightIntensity);
 
             return rayIntersectionResult.Material.DiffuseColor * diffuseLightIntensity * rayIntersectionResult.Material.Albedo.DiffuseKoef +
-                Vector3.One * specularLightIntensity * rayIntersectionResult.Material.Albedo.SpecularKoef +
+                ColorF.White * specularLightIntensity * rayIntersectionResult.Material.Albedo.SpecularKoef +
                 reflectionColor * rayIntersectionResult.Material.Albedo.ReflectKoef +
                 refractionColor * rayIntersectionResult.Material.Albedo.RefractKoef;
         }
@@ -122,7 +122,7 @@ namespace OnlySharp3d
             }
         }
 
-        private Vector3 GetColorFromEnvironmentMap(Vector3 projectionDirection, ImageF environmentMap)
+        private ColorF GetColorFromEnvironmentMap(Vector3 projectionDirection, ImageF environmentMap)
         {
             var x = (int) MathF.Max(
                 0f,
@@ -140,7 +140,7 @@ namespace OnlySharp3d
             return environmentMap.Buffer[x][y];
         }
 
-        private Vector3 GetReflectionColor(
+        private ColorF GetReflectionColor(
             Vector3 projectionDirection, List<IObject3D> scene, List<LightSource> lightSources, ImageF environmentMap,
             int depth, ref RayIntersectionResult rayIntersectionResult)
         {
@@ -154,7 +154,7 @@ namespace OnlySharp3d
             return CastRay(ref reflectOrigin, ref reflectDirection, scene, lightSources, environmentMap, depth + 1);
         }
 
-        private Vector3 GetRefractionColor(
+        private ColorF GetRefractionColor(
             Vector3 projectionDirection, List<IObject3D> scene, List<LightSource> lightSources, ImageF environmentMap,
             int depth, ref RayIntersectionResult rayIntersectionResult)
         {

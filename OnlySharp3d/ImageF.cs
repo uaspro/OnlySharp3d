@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -10,7 +9,7 @@ namespace OnlySharp3d
 {
     internal class ImageF
     {
-        public Vector3[][] Buffer { get; }
+        public ColorF[][] Buffer { get; }
 
         public int Width { get; }
 
@@ -21,10 +20,10 @@ namespace OnlySharp3d
             Width = width;
             Height = height;
 
-            Buffer = new Vector3[Width][];
+            Buffer = new ColorF[Width][];
             for (var i = 0; i < Width; i++)
             {
-                Buffer[i] = new Vector3[Height];
+                Buffer[i] = new ColorF[Height];
             }
         }
 
@@ -35,10 +34,10 @@ namespace OnlySharp3d
             Width = envMap.Width;
             Height = envMap.Height;
 
-            Buffer = new Vector3[Width][];
+            Buffer = new ColorF[Width][];
             for (var i = 0; i < Width; i++)
             {
-                Buffer[i] = new Vector3[Height];
+                Buffer[i] = new ColorF[Height];
             }
 
             var bitmapData = envMap.LockBits(
@@ -62,7 +61,7 @@ namespace OnlySharp3d
                         int red = pixels[currentLine + i + 2];
                         int green = pixels[currentLine + i + 1];
                         int blue = pixels[currentLine + i];
-                        Buffer[i / bytesPerPixel][j] = new Vector3(red / 255f, green / 255f, blue / 255f);
+                        Buffer[i / bytesPerPixel][j] = new ColorF(red / 255f, green / 255f, blue / 255f);
                     }
                 });
 
@@ -93,15 +92,15 @@ namespace OnlySharp3d
                     for (var i = 0; i < widthInBytes; i += bytesPerPixel)
                     {
                         var colorValue = Buffer[i / bytesPerPixel][j];
-                        var max = MathF.Max(colorValue.X, MathF.Max(colorValue.Y, colorValue.Z));
+                        var max = MathF.Max(colorValue.R, MathF.Max(colorValue.G, colorValue.B));
                         if (max > 1)
                         {
                             colorValue *= 1f / max;
                         }
 
-                        pixels[currentLine + i + 2] = (byte)(255 * MathF.Max(0f, MathF.Min(1f, colorValue.X)));
-                        pixels[currentLine + i + 1] = (byte)(255 * MathF.Max(0f, MathF.Min(1f, colorValue.Y)));
-                        pixels[currentLine + i] = (byte)(255 * MathF.Max(0f, MathF.Min(1f, colorValue.Z)));
+                        pixels[currentLine + i + 2] = (byte)(255 * MathF.Max(0f, MathF.Min(1f, colorValue.R)));
+                        pixels[currentLine + i + 1] = (byte)(255 * MathF.Max(0f, MathF.Min(1f, colorValue.G)));
+                        pixels[currentLine + i] = (byte)(255 * MathF.Max(0f, MathF.Min(1f, colorValue.B)));
                     }
                 });
 

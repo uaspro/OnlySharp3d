@@ -13,11 +13,11 @@ namespace OnlySharp3d
 
         private static void Main()
         {
-            var materialIvory = new Material(1f, new Albedo(0.6f, 0.3f, 0.1f, 0f), new Vector3(0.4f, 0.4f, 0.3f), 50f);
-            var materialRed = new Material(1f, new Albedo(0.9f, 0.1f, 0.0f, 0f), new Vector3(0.3f, 0.1f, 0.1f), 10f);
-            var materialMirror = new Material(1f, new Albedo(0f, 10f, 0.8f, 0f), new Vector3(1.0f, 1.0f, 1.0f), 1425f);
+            var materialIvory = new Material(1f, new Albedo(0.6f, 0.3f, 0.1f, 0f), new ColorF(0.4f, 0.4f, 0.3f), 50f);
+            var materialRed = new Material(1f, new Albedo(0.9f, 0.1f, 0.0f, 0f), new ColorF(0.3f, 0.1f, 0.1f), 10f);
+            var materialMirror = new Material(1f, new Albedo(0f, 10f, 0.8f, 0f), new ColorF(1.0f, 1.0f, 1.0f), 1425f);
             var materialGlass = new Material(
-                1.5f, new Albedo(0f, 0.5f, 0.1f, 0.8f), new Vector3(0.6f, 0.7f, 0.8f), 125f);
+                1.5f, new Albedo(0f, 0.5f, 0.1f, 0.8f), new ColorF(0.6f, 0.7f, 0.8f), 125f);
 
             var scene = new List<IObject3D>
             {
