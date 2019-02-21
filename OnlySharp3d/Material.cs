@@ -2,20 +2,20 @@
 {
     internal struct Material
     {
-        public float RefractiveIndex { get; }
+        public ColorF DiffuseColor { get; }
 
         public Albedo Albedo { get; }
 
-        public ColorF DiffuseColor { get; }
-
         public float SpecularExponent { get; }
 
-        internal Material(float refractiveIndex, Albedo albedo, ColorF diffuseColor, float specularExponent)
+        public float RefractiveIndex { get; }
+
+        internal Material(ColorF diffuseColor, Albedo albedo, float specularExponent, float refractiveIndex)
         {
-            RefractiveIndex = refractiveIndex;
             DiffuseColor = diffuseColor;
             Albedo = albedo;
             SpecularExponent = specularExponent;
+            RefractiveIndex = refractiveIndex;
         }
     }
 }

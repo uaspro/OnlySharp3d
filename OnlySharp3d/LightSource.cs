@@ -2,7 +2,7 @@
 
 namespace OnlySharp3d
 {
-    public struct LightSource
+    internal struct LightSource
     {
         public Vector3 Position { get; }
 

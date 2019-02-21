@@ -15,9 +15,9 @@ namespace OnlySharp3d
 
         public float Fov { get; }
 
-        public int RaycastDepth { get; }
-
         public float RenderDistance { get; set; }
+
+        public int RaycastDepth { get; }
 
         internal RenderEngine(
             int frameWidth, int frameHeight, float fov = MathF.PI / 2, float renderDistance = 1000f,
@@ -66,16 +66,16 @@ namespace OnlySharp3d
                     : GetColorFromEnvironmentMap(projectionDirection, environmentMap);
             }
 
+            CalculateLightIntensity(
+                projectionDirection, scene, lightSources, rayIntersectionResult,
+                out var diffuseLightIntensity,
+                out var specularLightIntensity);
+
             var reflectionColor = GetReflectionColor(
                 projectionDirection, scene, lightSources, environmentMap, depth, ref rayIntersectionResult);
 
             var refractionColor = GetRefractionColor(
                 projectionDirection, scene, lightSources, environmentMap, depth, ref rayIntersectionResult);
-
-            CalculateLightIntensity(
-                projectionDirection, scene, lightSources, rayIntersectionResult,
-                out var diffuseLightIntensity,
-                out var specularLightIntensity);
 
             return rayIntersectionResult.Material.DiffuseColor * diffuseLightIntensity * rayIntersectionResult.Material.Albedo.DiffuseKoef +
                 ColorF.White * specularLightIntensity * rayIntersectionResult.Material.Albedo.SpecularKoef +
@@ -93,30 +93,29 @@ namespace OnlySharp3d
 
             foreach (var lightSource in lightSources)
             {
-                var lightDirection = Vector3.Normalize(lightSource.Position - rayIntersectionResult.HitPoint);
-                var lightDistance = Vector3.Distance(lightSource.Position, rayIntersectionResult.HitPoint);
+                var lightSourceDirection = Vector3.Normalize(lightSource.Position - rayIntersectionResult.HitPoint);
+                var lightSourceDistance = Vector3.Distance(lightSource.Position, rayIntersectionResult.HitPoint);
 
-                var shadowOrigin = Vector3.Dot(lightDirection, rayIntersectionResult.NormalVector) < 0
+                var shadowOrigin = Vector3.Dot(lightSourceDirection, rayIntersectionResult.NormalVector) < 0
                     ? rayIntersectionResult.HitPoint - rayIntersectionResult.NormalVector * 1e-3f
                     : rayIntersectionResult.HitPoint + rayIntersectionResult.NormalVector * 1e-3f;
 
                 RayIntersectionResult shadowIntersectionResult;
-                if ((shadowIntersectionResult = SceneIntersect(ref shadowOrigin, ref lightDirection, scene))
-                   .IsIntersect &&
-                    Vector3.Distance(shadowIntersectionResult.HitPoint, shadowOrigin) < lightDistance)
+                if ((shadowIntersectionResult = SceneIntersect(ref shadowOrigin, ref lightSourceDirection, scene)).IsIntersect &&
+                    Vector3.Distance(shadowIntersectionResult.HitPoint, shadowOrigin) < lightSourceDistance)
                 {
                     continue;
                 }
 
                 diffuseLightIntensity += lightSource.Intensity * MathF.Max(
-                    0f, Vector3.Dot(lightDirection, rayIntersectionResult.NormalVector));
+                    0f, Vector3.Dot(lightSourceDirection, rayIntersectionResult.NormalVector));
 
                 specularLightIntensity +=
                     MathF.Pow(
                         MathF.Max(
                             0f,
                             -Vector3.Dot(
-                                Vector3.Reflect(-lightDirection, rayIntersectionResult.NormalVector),
+                                Vector3.Reflect(-lightSourceDirection, rayIntersectionResult.NormalVector),
                                 projectionDirection)),
                         rayIntersectionResult.Material.SpecularExponent) * lightSource.Intensity;
             }
